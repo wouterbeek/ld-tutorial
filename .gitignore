@@ -1,0 +1,13 @@
+*.log
+etl.err
+etl.trace*
+data
+lib
+node_modules
+npm-debug.log*
+report.ttl.gz
+
+# Do not accidentally commit files which may contain private a private API Token.
+.etl*
+.env*
+

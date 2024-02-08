@@ -1,0 +1,32 @@
+{
+  "author": "Triply <info@triply.cc>",
+  "type": "module",
+  "dependencies": {
+    "@triplyetl/etl": "^4.0.0"
+  },
+  "description": "Triply ETL for ld-tutorial",
+  "lint-staged": {
+    "*.ts?(x)": [
+      "npm run util:lint:fix"
+    ]
+  },
+  "main": "lib/main.js",
+  "private": true,
+  "license": "UNLICENSED",
+  "contributors": [
+    {
+      "name": "Wouter Beek",
+      "email": "wouter@triply.cc"
+    }
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
+    "util:lint": "ESLINT_STRICT=true ESLINT_EXPENSIVE=true eslint --ext .tsx --ext .ts ./src",
+    "util:lint:fix": "ESLINT_STRICT=true ESLINT_EXPENSIVE=true eslint --fix --ext .tsx --ext .ts ./src",
+    "util:validateTs": "tsc --noEmit",
+    "util:validateTs:watch": "tsc --noEmit --watch --preserveWatchOutput"
+  },
+  "version": "1.0.0",
+  "name": "ld-tutorial"
+}

@@ -1,0 +1,109 @@
+include:
+  - project: 'shared/ci-utils'
+    file: 'triply-etl.yml'
+
+default: 
+  tags: 
+    - etl
+
+workflow:
+  name: $PIPELINE_NAME
+
+
+stages:
+  # 0: Only install, lint and build, gets triggered on push and merge-requests:
+  - preflight
+  # 1: Run all regular ETL's:
+  - run-etls
+  # 2: construct Knowledge graph and synchronise services for the KG:
+  - create-knowledge-graph
+  # 3: Run IP bases code (e.g. create a Search Graph):
+  - informationproducts
+  # 4: optional final stage (e.g. to synchronize services for SG)
+  - finalize
+
+image: node:20.9-bullseye-slim
+
+### Stage 0: Only install, lint and build, gets triggered on push and merge-requests:
+preflight:
+  stage: preflight
+  script:
+    - !reference [.etl-template, install]
+  rules:
+    - !reference [.etl-template, rules-preflight]
+
+### Stage 1: run ETL "main"
+main:
+  stage: run-etls
+  interruptible: true
+  # WARNING: by setting 'allow_failure' to 'true' scripts that fail
+  # will not stop the ETL from continuing with other stages/scripts.
+  allow_failure: false
+  artifacts:
+    !reference [.etl-template, artifacts]
+  script:
+    - !reference [.etl-template, install]
+    - !reference [.etl-template, run-etl]
+  rules:
+    - !reference [.etl-template, rules]
+
+### Example stage 1: add another ETL with name "collections"
+collections:
+  stage: run-etls
+  interruptible: true
+  allow_failure: false
+  artifacts:
+    !reference [.etl-template, artifacts]
+  script:
+    - !reference [.etl-template, install]
+    - !reference [.etl-template, run-etl]
+  rules:
+    # Make sure you remove this next line if you want to use this stage:
+    - when: never
+    - !reference [.etl-template, rules]
+
+
+### Example stage 2: create Knowledge Graph:
+create-knowledge-graph:
+  stage: create-knowledge-graph
+  interruptible: true
+  script:
+    - !reference [.etl-template, install]
+    - !reference [.etl-template, run-etl]
+  rules:
+    # Make sure you remove this next line if you want to use this stage:
+    - when: never
+    - if: $TASK == $CI_JOB_NAME
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+
+### Example stage 3: informationproduct Search Graph:
+create-search-graph:
+  stage: informationproducts
+  interruptible: true
+  artifacts:
+    !reference [.etl-template, artifacts]
+  rules:
+    # Make sure you remove this next line if you want to use this stage:
+    - when: never
+    - if: $TASK == "informationproducts"
+    - if: $TASK == $CI_JOB_NAME
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  script:
+    - !reference [.etl-template, install]
+    - !reference [.etl-template, run-etl]
+
+### Example stage 4: synchronise servcices for Search Graph:
+synchronise-services-search-graph:
+  stage: finalize
+  interruptible: true
+  artifacts:
+    !reference [.etl-template, artifacts]
+  rules:
+    # Make sure you remove this next line if you want to use this stage:
+    - when: never
+    - if: $TASK == "finalize"
+    - if: $TASK == $CI_JOB_NAME
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  script:
+    - !reference [.etl-template, install]
+    - !reference [.etl-template, run-etl]
