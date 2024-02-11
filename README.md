@@ -4,19 +4,21 @@ This repository contains the TriplyETL configuration for transformations found i
 
 Follow these steps to run TriplyETL:
 
-1. Install dependencies
+1. Follow the prerequisites documented at [this link](https://docs.triply.cc/triply-etl/generic/getting-started/#prerequisites).
+
+2. Install dependencies
 
    ```sh
    npm i
    ```
 
-2. Create a TriplyDB API Token and set it in a file called `.env`:
+3. Create a TriplyDB API Token and set it in a file called `.env`:
 
    ```sh
    TRIPLYDB_TOKEN={your-token-here}
    ```
 
-3. Transpile:
+4. Transpile:
 
    ```sh
    npm run build
@@ -28,7 +30,7 @@ Follow these steps to run TriplyETL:
    npm run dev
    ```
 
-4. Run
+5. Run
 
    ```sh
    npx etl
