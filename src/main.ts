@@ -3,6 +3,7 @@ import { map } from '@triplyetl/etl/rml'
 import { validate } from '@triplyetl/etl/shacl'
 
 import { account, dataset, prefixes } from './declaration.js'
+import { update } from '@triplyetl/etl/sparql'
 
 export default async function (): Promise<Etl> {
   const etl = new Etl({ prefixes })
@@ -14,6 +15,7 @@ export default async function (): Promise<Etl> {
     _switch('$fileName',
       ['static/data/episodes.csv', [
         map(Source.file('static/mapping/episodes-2-episode.trig')),
+        update(Source.file('static/query/airdate.rq')),
         validate(Source.file('static/model/episode.trig')),
       ]],
       ['static/data/people.csv', [

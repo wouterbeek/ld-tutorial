@@ -32,8 +32,17 @@ graph:model {
     a sh:NodeShape;
     sh:closed true;
     sh:ignoredProperties lst:type;
-    sh:property shp:Episode_title;
+    sh:property
+      shp:Episode_airdate,
+      shp:Episode_title;
     sh:targetClass sdo:Episode.
+
+  shp:Episode_airdate
+    a sh:PropertyShape;
+    sh:datatype xsd:date;
+    sh:maxCount 1;
+    sh:minCount 1;
+    sh:path def:airdate.
 
   shp:Episode_title
     a sh:PropertyShape;

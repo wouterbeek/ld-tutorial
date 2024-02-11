@@ -1,0 +1,12 @@
+prefix def: <https://tripyldb.com/wouter/ld-tutorial/model/def/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+delete {
+  ?episode def:airdate ?dateWrong.
+}
+insert {
+  ?episode def:airdate ?dateCorrect.
+}
+where {
+  ?episode def:airdate ?dateWrong.
+  bind(strdt(replace(?dateWrong, '(..)/(..)/(....)', '$3-$2-$1'),xsd:date) as ?dateCorrect)
+}

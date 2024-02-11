@@ -32,7 +32,9 @@ graph:mapping {
     a rr:TriplesMap;
     rml:logicalSource source:record;
     rr:subjectMap sm:episode;
-    rr:predicateObjectMap pom:title.
+    rr:predicateObjectMap
+      pom:airdate,
+      pom:title.
 
   source:record
     a rml:logicalSource;
@@ -45,6 +47,14 @@ graph:mapping {
     rr:graph graph:episodes;
     rr:template 'episode:{number}';
     rr:class sdo:Episode.
+
+  pom:airdate
+    a rr:PredicateObjectMap;
+    rr:predicate def:airdate;
+    rr:objectMap om:airdate.
+  om:airdate
+    a rr:ObjectMap;
+    rml:reference 'airdate'.
 
   pom:title
     a rr:PredicateObjectMap;
