@@ -7,3 +7,13 @@ parserOptions:
   ecmaVersion: latest
   sourceType: module
   project: tsconfig.json
+rules:
+  "@typescript-eslint/comma-dangle": off
+  "@typescript-eslint/comma-spacing": off
+  "@typescript-eslint/naming-convention": off
+  "@typescript-eslint/object-curly-spacing": off
+  "@typescript-eslint/quotes": off
+  "@typescript-eslint/space-before-function-paren": off
+  "@typescript-eslint/no-unused-vars": off
+  "no-multiple-empty-lines": off
+  "spaced-comment": off

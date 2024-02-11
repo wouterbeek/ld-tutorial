@@ -1,0 +1,96 @@
+# External prefix declarations.
+prefix csvw: <http://www.w3.org/ns/csvw#>
+prefix dbo: <http://dbpedia.org/ontology/>
+prefix ql: <http://semweb.mmlab.be/ns/ql#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rml: <http://semweb.mmlab.be/ns/rml#>
+prefix rr: <http://www.w3.org/ns/r2rml#>
+prefix sdo: <https://schema.org/>
+prefix sh: <http://www.w3.org/ns/shacl#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# Project-specific prefix declarations.
+## Model
+prefix def: <https://tripyldb.com/wouter/ld-tutorial/model/def/>
+prefix lst: <https://tripyldb.com/wouter/ld-tutorial/model/lst/>
+prefix shp: <https://tripyldb.com/wouter/ld-tutorial/model/shp/>
+## Mapping
+prefix gm: <https://tripyldb.com/wouter/ld-tutorial/mapping/graph/>
+prefix mapping: <https://tripyldb.com/wouter/ld-tutorial/mapping/mapping/>
+prefix om: <https://tripyldb.com/wouter/ld-tutorial/mapping/object/>
+prefix pom: <https://tripyldb.com/wouter/ld-tutorial/mapping/predicateObject/>
+prefix sm: <https://tripyldb.com/wouter/ld-tutorial/mapping/subject/>
+prefix source: <https://tripyldb.com/wouter/ld-tutorial/mapping/source/>
+## Instances
+prefix episode: <https://tripyldb.com/wouter/ld-tutorial/id/episode/>
+prefix graph: <https://tripyldb.com/wouter/ld-tutorial/id/graph/>
+prefix person: <https://tripyldb.com/wouter/ld-tutorial/id/person/>
+
+graph:mapping {
+
+  mapping:people
+    a rr:TriplesMap;
+    rml:logicalSource source:record;
+    rr:subjectMap sm:person;
+    rr:predicateObjectMap
+      pom:appearsIn,
+      pom:debutEpisode,
+      pom:familyName,
+      pom:givenName,
+      pom:hairColor.
+
+  source:record
+    a rml:logicalSource;
+    rml:source '$Record.json';
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator '$'.
+
+  sm:person
+    a rr:SubjectMap;
+    rr:graphMap graph:characters;
+    rr:template "person:{id}";
+    rr:class sdo:Person.
+
+  pom:appearsIn
+    a rr:PredicateObjectMap;
+    rr:predicate def:appearsIn;
+    rr:objectMap om:appearsIn.
+  om:appearsIn
+    a rr:ObjectMap;
+    rr:template 'episode:{debut episode}'.
+
+  pom:debutEpisode
+    a rr:PredicateObjectMap;
+    rr:predicate def:debutEpisode;
+    rr:objectMap om:debutEpisode.
+  om:debutEpisode
+    a rr:ObjectMap;
+    rr:datatype xsd:integer;
+    rml:reference 'debut episode'.
+
+  pom:familyName
+    a rr:PredicateObjectMap;
+    rr:predicate sdo:familyName;
+    rr:objectMap om:familyName.
+  om:familyName
+    a rr:ObjectMap;
+    rml:reference 'lastname'.
+
+  pom:givenName
+    a rr:PredicateObjectMap;
+    rr:predicate sdo:givenName;
+    rr:objectMap om:givenName.
+  om:givenName
+    a rr:ObjectMap;
+    rml:reference 'firstname'.
+
+  pom:hairColor
+    a rr:PredicateObjectMap;
+    rr:predicate dbo:hairColor;
+    rr:objectMap om:hairColor.
+  om:hairColor
+    a rr:ObjectMap;
+    rr:language 'en';
+    rml:reference 'hair color'.
+
+}

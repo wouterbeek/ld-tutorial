@@ -1,0 +1,104 @@
+# External prefix declarations.
+prefix csvw: <http://www.w3.org/ns/csvw#>
+prefix dbo: <http://dbpedia.org/ontology/>
+prefix ql: <http://semweb.mmlab.be/ns/ql#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rml: <http://semweb.mmlab.be/ns/rml#>
+prefix rr: <http://www.w3.org/ns/r2rml#>
+prefix sdo: <https://schema.org/>
+prefix sh: <http://www.w3.org/ns/shacl#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# Project-specific prefix declarations.
+## Model
+prefix def: <https://tripyldb.com/wouter/ld-tutorial/model/def/>
+prefix lst: <https://tripyldb.com/wouter/ld-tutorial/model/lst/>
+prefix shp: <https://tripyldb.com/wouter/ld-tutorial/model/shp/>
+## Mapping
+prefix gm: <https://tripyldb.com/wouter/ld-tutorial/mapping/graph/>
+prefix mapping: <https://tripyldb.com/wouter/ld-tutorial/mapping/mapping/>
+prefix om: <https://tripyldb.com/wouter/ld-tutorial/mapping/object/>
+prefix pom: <https://tripyldb.com/wouter/ld-tutorial/mapping/predicateObject/>
+prefix sm: <https://tripyldb.com/wouter/ld-tutorial/mapping/subject/>
+prefix source: <https://tripyldb.com/wouter/ld-tutorial/mapping/source/>
+## Instances
+prefix episode: <https://tripyldb.com/wouter/ld-tutorial/id/episode/>
+prefix graph: <https://tripyldb.com/wouter/ld-tutorial/id/graph/>
+prefix person: <https://tripyldb.com/wouter/ld-tutorial/id/person/>
+
+graph:model {
+
+  shp:Episode
+    a sh:NodeShape;
+    sh:closed true;
+    sh:ignoredProperties lst:type;
+    sh:property shp:Episode_title;
+    sh:targetClass sdo:Episode.
+
+  shp:Episode_title
+    a sh:PropertyShape;
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:minCount 1;
+    sh:path sdo:title.
+
+
+  shp:Person
+    a sh:NodeShape;
+    sh:closed true;
+    sh:ignoredProperties lst:type;
+    sh:property
+      shp:Person_appearsIn,
+      shp:Person_debutEpisode,
+      shp:Person_familyName,
+      shp:Person_givenName,
+      shp:Person_hairColor;
+    sh:targetClass sdo:Person.
+
+  shp:Person_appearsIn
+    a sh:PropertyShape;
+   #sh:class sdo:Episode;
+    sh:maxCount 1;
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path def:appearsIn.
+
+  shp:Person_debutEpisode
+    a sh:PropertyShape;
+    sh:datatype xsd:integer;
+    sh:maxCount 1;
+    sh:minCount 1;
+    sh:path def:debutEpisode.
+
+  shp:Person_familyName
+    a sh:PropertyShape;
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:minCount 1;
+    sh:path sdo:familyName.
+
+  shp:Person_givenName
+    a sh:PropertyShape;
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:minCount 1;
+    sh:path sdo:givenName.
+
+  shp:Person_hairColor
+    a sh:PropertyShape;
+    sh:language lst:en;
+    sh:maxCount 1;
+    sh:minCount 1;
+    sh:path dbo:hairColor.
+
+lst:en
+  a rdf:List;
+  rdf:first 'en';
+  rdf:rest rdf:nil.
+
+lst:type
+  a rdf:List;
+  rdf:first rdf:type;
+  rdf:rest rdf:nil.
+
+}
