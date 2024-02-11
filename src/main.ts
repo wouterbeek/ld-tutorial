@@ -1,4 +1,4 @@
-import { _switch, Etl, fromCsv, Source, toTriplyDb } from '@triplyetl/etl/generic'
+import { _switch, Etl, fromCsv, fromOai, Source, toTriplyDb } from '@triplyetl/etl/generic'
 import { map } from '@triplyetl/etl/rml'
 import { validate } from '@triplyetl/etl/shacl'
 
